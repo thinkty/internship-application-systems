@@ -8,17 +8,15 @@ It should report loss and RTT times for each sent message.
 
 Please choose from among these languages: C/C++/Go/Rust
 
-## Useful Links
+## Rust Tutorial
 
-- [A Tour of Go](https://tour.golang.org/welcome/1)
 - [The Rust Programming Language](https://doc.rust-lang.org/book/index.html)
 
 ## Requirements
 
-### 1. Use one of the specified languages
+### 1. Language used
 
-Please choose from among C/C++/Go/Rust. If you aren't familiar with these languages, you're not alone! Many engineers join Cloudflare without
-specific langauge experience. Please consult [A Tour of Go](https://tour.golang.org/welcome/1) or [The Rust Programming Language](https://doc.rust-lang.org/book/index.html).
+I am taking this as an opportunity to learn Rust. I am intrigued by the ability of Rust to manage memory without the user having to consistently worry about freeing it. Since I am learning Rust, there will be notes left on the source code for my studies.
 
 ### 2. Build a tool with a CLI interface
 

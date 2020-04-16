@@ -5,6 +5,7 @@
 
 use std::env; // for program arguments
 mod validator;
+mod network_operator;
 
 
 fn main() {
@@ -21,19 +22,19 @@ fn main() {
     }
 
     // get argument type (ip, hostname)
-    let arg_type: String = validator::get_type_of_arg(&args[1]);
-    if arg_type.is_empty() {
+    let arg_type: network_operator::InputType = validator::get_type_of_arg(&args[1]);
+    if arg_type == network_operator::InputType::UNKNOWN {
         println!("Error: could not recognize the input type (hostname or IP)");
         return;
     }
-
-
     
     // println! is a macro
     println!("__________[ Ping ]__________");
     println!("Received a type: {}", arg_type);
     println!("Use ctrl-C to get report");
 
+    // add signal interrupt handler
+    network_operator::register_sig_action();
 
     // check whether argument is and IP address or a hostname
     //let mut is_ip: bool = false;

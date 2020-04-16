@@ -1,5 +1,7 @@
 //! This module is used for validating the input arguments
 
+mod network_operator;
+
 const DEBUG: bool = false;
 const VAILD_LENGTH: usize = 2;
 
@@ -33,27 +35,27 @@ pub fn is_valid_length(args: &Vec<String>) -> bool {
 
 /**
  * This function checks the type (IP or hostname) by matching with a regular expression.
- * Returns a string with "hostname", "ip", or just an empty string if none.
+ * Returns an enum with "hostname", "ipv4/6", or just UNKNOWN if unavailable.
  * This function has support for IPv4 and also IPv6
  * 
  * `_arg` - Reference to argument potentially containing the hostname / ip
  */
-pub fn get_type_of_arg(_arg: &String) -> String {
+pub fn get_type_of_arg(_arg: &String) -> network_operator::InputType {
     
     // check if it is an IPv4 or IPv6
     if is_ipv4(_arg) {
-        return "IPv4".to_string();
+        return network_operator::InputType::IPv4;
     } else if is_ipv6(_arg) {
-        return "IPv6".to_string();
+        return network_operator::InputType::IPv6;
     }
 
     // check if it is a hostname
     if is_hostname(&_arg) {
-        return "Hostname".to_string();
+        return network_operator::InputType::HOSTNAME;
     }
     
     // could not recognize type
-    "".to_string()
+    network_operator::InputType::UNKNOWN
 }
 
 /**

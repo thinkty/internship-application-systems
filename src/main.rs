@@ -4,9 +4,8 @@
 //! Finally, the program will report task results (loss, time) for each request.
 
 use std::env; // for program arguments
-mod validator;
 mod network_operator;
-
+mod validator;
 
 fn main() {
 
@@ -30,21 +29,12 @@ fn main() {
     
     // println! is a macro
     println!("__________[ Ping ]__________");
-    println!("Received a type: {}", arg_type);
+    println!("Received a type: {:?}", &arg_type);
     println!("Use ctrl-C to get report");
 
     // add signal interrupt handler
     network_operator::register_sig_action();
 
-    // check whether argument is and IP address or a hostname
-    //let mut is_ip: bool = false;
-    
-    // println!("hostname or IP address to ping : {:?}", args[1]);
-    // println!("how many times to repeat: ");
-    // let mut arg = String::new();
-    // io::stdin().read_line(&mut arg)
-    //     .expect("Failed to read line");
-    // println!("You guessed: {0}", arg);
-
-    return;
+    // ping
+    network_operator::ping(arg_type, &args[1][..]);
 }

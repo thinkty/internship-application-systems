@@ -1,6 +1,6 @@
 //! This module is used for validating the input arguments
 
-mod network_operator;
+use crate::network_operator::InputType;
 
 const DEBUG: bool = false;
 const VAILD_LENGTH: usize = 2;
@@ -40,22 +40,22 @@ pub fn is_valid_length(args: &Vec<String>) -> bool {
  * 
  * `_arg` - Reference to argument potentially containing the hostname / ip
  */
-pub fn get_type_of_arg(_arg: &String) -> network_operator::InputType {
+pub fn get_type_of_arg(_arg: &String) -> InputType {
     
     // check if it is an IPv4 or IPv6
     if is_ipv4(_arg) {
-        return network_operator::InputType::IPv4;
+        return InputType::IPv4;
     } else if is_ipv6(_arg) {
-        return network_operator::InputType::IPv6;
+        return InputType::IPv6;
     }
 
     // check if it is a hostname
     if is_hostname(&_arg) {
-        return network_operator::InputType::HOSTNAME;
+        return InputType::HOSTNAME;
     }
     
     // could not recognize type
-    network_operator::InputType::UNKNOWN
+    InputType::UNKNOWN
 }
 
 /**

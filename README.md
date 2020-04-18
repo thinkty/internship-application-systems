@@ -12,11 +12,11 @@ Made with Rust
 
 - [The Rust Programming Language](https://doc.rust-lang.org/book/index.html)
 
-## Requirements
-
-### 0. Permission
+## Permission
 
 This program requires "sudo" to run properly
+
+## Requirements
 
 ### 1. Language used
 

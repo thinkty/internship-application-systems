@@ -36,5 +36,5 @@ fn main() {
     network_operator::register_sig_action();
 
     // ping
-    network_operator::ping(arg_type, &args[1][..]);
+    network_operator::ping(&args[1][..]);
 }

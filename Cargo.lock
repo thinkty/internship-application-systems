@@ -48,11 +48,21 @@ dependencies = [
 ]
 
 [[package]]
+name = "oping"
+version = "0.3.4"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "74683b059d76f1b24b7e90c7aaa8bc16e2c193b4be0ffa9f49f082076e3b4050"
+dependencies = [
+ "cc",
+ "libc",
+]
+
+[[package]]
 name = "ping"
 version = "0.1.0"
 dependencies = [
  "ctrlc",
- "nix",
+ "oping",
 ]
 
 [[package]]

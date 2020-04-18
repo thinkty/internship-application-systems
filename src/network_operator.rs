@@ -2,8 +2,7 @@
 
 use std::thread;
 use std::time;
-use std::net::SocketAddr;
-use std::net::ToSocketAddrs;
+use oping::{Ping};
 
 #[derive(Debug)]
 #[derive(PartialEq)]
@@ -15,6 +14,9 @@ pub enum InputType {
 }
 
 static mut IS_LOOPING: bool = true;
+static mut SUCCESS: u32 = 0;
+static mut FAILURE: u32 = 0;
+static mut TIME: f64 = 0.0;
 
 /**
  * This function registers an signal action handler to SIGINT.
@@ -44,10 +46,9 @@ pub fn register_sig_action() {
  * This function sends a ping and waits for response.
  * Based on the result, it updates the success_ratio.
  * 
- * `addr_type` - Type of input
  * `address` - Value of the address
  */
-pub fn ping(addr_type: InputType, address: &str) {
+pub fn ping(address: &str) {
 
     // keep pinging 
     unsafe {
@@ -56,24 +57,49 @@ pub fn ping(addr_type: InputType, address: &str) {
             // ping every 1 second
             thread::sleep(time::Duration::from_millis(1000));
 
-            // get start time
-            let curr_time: time::SystemTime = time::SystemTime::now();
-
-            // create ICMP packet
-
+            // create ICMP packet using external library oping
+            // while searching for external rust libraries, I realized
+            // many of them are not being updated anymore or was abandoned.
+            let mut ping = Ping::new();
+            // max wait time is 5 seconds
+            match ping.set_timeout(5.0) {
+                Ok(_) => {},
+                Err(err) => {
+                    println!("{:?}", err);
+                } 
+            }
+            // set host based on address type
+            match ping.add_host(address) {
+                Ok(_) => {},
+                Err(err) => {
+                    println!("{:?}", err);
+                }
+            }
 
             // send ICMP packet
+            let responses = match ping.send() {
+                Ok(iter) => iter,
+                Err(err) => {
+                    // timeout
+                    println!("{}", err);
+                    // update result as failure
+                    FAILURE += 1;
+                    continue;
+                }
+            };
 
-            // wait for response
-            let resp_time: time::SystemTime = time::SystemTime::now();
-            let diff: time::Duration = resp_time.duration_since(curr_time)
-                .expect("Error with getting duration");
-            println!("Received from {} time={:?}ms", &address, &diff.as_millis());
-
-            // parse response
-
-            // update result
-
+            // check response and update result
+            for response in responses {
+                if response.dropped > 0 {
+                    println!("No response from {} (loss)", response.address);
+                } else {
+                    // display success result
+                    println!("Response from {} with {} ms", response.address, response.latency_ms);
+                    // update result
+                    SUCCESS += 1;
+                    TIME += response.latency_ms;
+                }
+            }
         }
     }
 
@@ -86,38 +112,11 @@ pub fn ping(addr_type: InputType, address: &str) {
  */
 fn print_result() {
     println!("--- Ping result ---");
-
-}
-
-/**
- * This function creates an ICMP packet to send
- * 
- * `addr_type` - Type of input
- * `address` - Value of the address
- */
-fn create_icmp_packet(addr_type: InputType, address: &str) {
-
-    let mut socket_addr: SocketAddr;
-
-    match addr_type {
-        InputType::HOSTNAME => {
-            match socket_addr = address.to_socket_addrs() {
-                Ok(addr) => addr
-                Err(err) => {
-                    println!("{}", err)
-                }
-            }
-
-        }
-        InputType::IPv4 => {
-
-        }
-        InputType::IPv6 => {
-
-        }
-        InputType::UNKNOWN => {
-
-        }
+    unsafe {
+        println!("TOTAL  : {} packets", SUCCESS + FAILURE);
+        println!("SUCCESS: {}", SUCCESS);
+        println!("FAILURE: {}", FAILURE);
+        // safe casting using keyword as
+        println!("TIME   : {}", TIME / (SUCCESS + FAILURE) as f64);
     }
-
 }

@@ -2,17 +2,21 @@
 
 ## What is it?
 
-Please write a small Ping CLI application for MacOS or Linux.
-The CLI app should accept a hostname or an IP address as its argument, then send ICMP "echo requests" in a loop to the target while receiving "echo reply" messages.
-It should report loss and RTT times for each sent message.
+A small Ping CLI application for Linux.
+The CLI app accepts a hostname or an IP address as its argument, then send ICMP "echo requests" in a loop to the target while receiving "echo reply" messages.
+It reports loss and RTT times for each sent message.
 
-Please choose from among these languages: C/C++/Go/Rust
+Made with Rust
 
 ## Rust Tutorial
 
 - [The Rust Programming Language](https://doc.rust-lang.org/book/index.html)
 
 ## Requirements
+
+### 0. Permission
+
+This program requires "sudo" to run properly
 
 ### 1. Language used
 
@@ -30,14 +34,6 @@ As long as the program is running it should continue to emit requests with a per
 
 Packet loss and latency should be reported as each message received.
 
-## Submitting your project
-
-When submitting your project, you should prepare your code for upload to Greenhouse. The preferred method for doing this is to create a "ZIP archive" of your project folder: for more instructions on how to do this on Windows and Mac, see [this guide](https://www.sweetwater.com/sweetcare/articles/how-to-zip-and-unzip-files/).
-
-Please provide the source code only, a compiled binary is not necessary.
-
 ## Extra Credit
 
-1. Add support for both IPv4 and IPv6
-2. Allow to set TTL as an argument and report the corresponding "time exceeded” ICMP messages
-3. Any additional features listed in the ping man page or which you think would be valuable
+1. Added support for both IPv4 and IPv6

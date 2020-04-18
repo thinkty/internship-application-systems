@@ -80,7 +80,8 @@ pub fn ping(address: &str) {
             let responses = match ping.send() {
                 Ok(iter) => iter,
                 Err(err) => {
-                    // timeout
+                    // timeout or sudo
+                    println!("Please run with \"sudo\"");
                     println!("{}", err);
                     // update result as failure
                     FAILURE += 1;
@@ -117,6 +118,6 @@ fn print_result() {
         println!("SUCCESS: {}", SUCCESS);
         println!("FAILURE: {}", FAILURE);
         // safe casting using keyword as
-        println!("TIME   : {}", TIME / (SUCCESS + FAILURE) as f64);
+        println!("TIME   : {:.3} ms", TIME / (SUCCESS + FAILURE) as f64);
     }
 }

@@ -1,5 +1,7 @@
 # RustPing
 
+![screenshot](https://i.imgur.com/dg7XlD3.png)
+
 ## What is it?
 
 A small Ping CLI application for Linux (Ubuntu 18.04.4 LTS) for Cloudflare's internship application and also as an opportunity for me to learn Rust. The memory management and the ownership paradigm was hard to understand but it proved to me how one application could be memory-bug free.
